@@ -31,12 +31,12 @@ export function AuthForm({ mode }: AuthFormProps) {
           name: String(formData.get("name") ?? ""),
           email,
           password,
-          callbackURL: "/",
+          callbackURL: "/admin/dashboard",
         })
       : await authClient.signIn.email({
           email,
           password,
-          callbackURL: "/",
+          callbackURL: "/admin/dashboard",
         });
 
     setIsSubmitting(false);
@@ -46,7 +46,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       return;
     }
 
-    router.push("/");
+    router.push("/admin/dashboard");
     router.refresh();
   }
 
@@ -65,7 +65,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           </p>
         </div>
 
-        <form className="space-y-5" onSubmit={handleSubmit}>
+        <form  method="post" className="space-y-5" onSubmit={handleSubmit}>
           {isRegistering && (
             <label className="grid gap-2 text-sm font-medium">
               Name

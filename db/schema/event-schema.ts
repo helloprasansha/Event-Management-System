@@ -7,16 +7,16 @@ export const event = pgTable("event", {
     title: varchar("title").notNull(),
     description: text("description").notNull(),
     venue: varchar("venue").notNull(),
-    eventDate: date("event_date").notNull(),
-    startTime: time("start_time").notNull(),
-    endTime: time("end_time").notNull(),
+    event_Date: date("event_date").notNull(),
+    Start_Time: time("start_time").notNull(),
+    End_Time: time("end_time").notNull(),
     capacity: integer("capacity").notNull(),
     price: integer("price").notNull().default(0),
     banner: varchar("banner"),
     status: statusEnum("status").default("upcoming"),
     createdBy: varchar("created_by"),
-    createdAt: timestamp("created_at").defaultNow(),
-    updatedAt: timestamp("updated_at").defaultNow(),
+    Created_At: timestamp("created_at").defaultNow(),
+    Updated_At: timestamp("updated_at").defaultNow(),
 
 })
 
