@@ -34,7 +34,7 @@ const data = {
     },
     {
       title: "Events",
-      url: "#",
+      url: "/admin/events/event-details",
       icon: (
         <ListIcon
         />
