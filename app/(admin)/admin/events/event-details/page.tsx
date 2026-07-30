@@ -1,4 +1,4 @@
-import { CalendarDaysIcon, MapPinIcon, UsersIcon } from "lucide-react";
+import { CalendarDaysIcon, Delete, MapPinIcon, SquarePen, Trash, UsersIcon, } from "lucide-react";
 
 import { db } from "@/db";
 import { event } from "@/db/schema";
@@ -11,9 +11,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Link from "next/link";
 
 export default async function EventDetails() {
   const events = await db.select().from(event);
+
+  console.log(events);
 
   return (
     <Card>
@@ -27,7 +30,7 @@ export default async function EventDetails() {
 
       <CardContent className="space-y-3">
         {events.map((item) => (
-          <div
+          <><div
             key={item.id}
             className="flex flex-col gap-3 rounded-lg border p-4 sm:flex-row sm:items-center sm:justify-between"
           >
@@ -51,11 +54,21 @@ export default async function EventDetails() {
                 </span>
               </div>
             </div>
+            <div className="flex items-center justify-between ">
+              <Badge variant="outline">
+                {item.status}
+              </Badge>
+            </div>
+            <div className="flex gap-4">
+             <Link href={`/admin/events/${item.id}/edits`}>
+  <SquarePen size={24} className="cursor-pointer" />
+</Link>
 
-            <Badge variant="outline">
-              {item.status}
-            </Badge>
-          </div>
+              </div>
+              <div className="flex gap-4">
+              <Trash size={24} className="cursor-pointer" />
+            </div>
+          </div></>
         ))}
       </CardContent>
     </Card>
