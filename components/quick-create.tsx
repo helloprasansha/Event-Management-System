@@ -1,4 +1,4 @@
-import { createEvent } from "@/app/(admin)/admin/events/create/action";
+import { createEvent } from "@/app/(admin)/admin/events/actions/createevent";
 import Link from "next/link";
 
 const EventCreate = () => {
