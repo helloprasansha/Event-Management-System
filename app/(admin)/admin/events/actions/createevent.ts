@@ -2,52 +2,71 @@
 
 import { db } from "@/db";
 import { event } from "@/db/schema";
+import { eventSchema } from "@/lib/validation/event";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function createEvent(formData: FormData) {
-  const title = formData.get("title")?.toString().trim();
-  const description = formData.get("description")?.toString().trim();
-  const venue = formData.get("venue")?.toString().trim();
-  const eventDate = formData.get("eventDate")?.toString();
-  const startTime = formData.get("startTime")?.toString();
-  const endTime = formData.get("endTime")?.toString();
-  const capacity = Number(formData.get("capacity"));
-  const price = Number(formData.get("price"));
-  const banner = formData.get("banner")?.toString() || "";
+type FormState = {
+  errors: {
+    title?: string[];
+    description?: string[];
+    venue?: string[];
+    event_Date?: string[];
+    Start_Time?: string[];
+    End_Time?: string[];
+    capacity?: string[];
+    price?: string[];
+    status?: string[];
+  };
+};
 
-  if (
-    !title ||
-    !description ||
-    !venue ||
-    !eventDate ||
-    !startTime ||
-    !endTime
-  ) {
-    throw new Error("All required fields must be filled.");
+export type CreateEventFormState = FormState;
+
+export async function createEvent(
+  prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const parsed = eventSchema.safeParse({
+    title: formData.get("title"),
+    description: formData.get("description"),
+    venue: formData.get("venue"),
+    event_Date: formData.get("eventDate"),
+    Start_Time: formData.get("startTime"),
+    End_Time: formData.get("endTime"),
+    capacity: formData.get("capacity"),
+    price: formData.get("price"),
+    status: "upcoming",
+  });
+
+  // Validation failed
+  if (!parsed.success) {
+    return {
+      errors: parsed.error.flatten().fieldErrors,
+    };
   }
+
+  const banner = formData.get("banner")?.toString() || null;
 
   try {
     await db.insert(event).values({
       id: crypto.randomUUID(),
-      title,
-      description,
-      venue,
-      event_Date: eventDate,
-      Start_Time: startTime,
-      End_Time: endTime,
-      capacity,
-      price,
+      ...parsed.data,
       banner,
-      status: "upcoming",
+      createdBy: "admin",
       Created_At: new Date(),
       Updated_At: new Date(),
     });
 
     revalidatePath("/admin/dashboard");
-    redirect("/admin/dashboard");
   } catch (error) {
     console.error("Database Error:", error);
-    throw error;
+
+    return {
+      errors: {
+        title: ["Something went wrong while creating the event."],
+      },
+    };
   }
+
+  redirect("/admin/dashboard");
 }
