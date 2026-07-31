@@ -31,4 +31,5 @@ export default async function EditEventPage({ params }: Props) {
       <p>Capacity: {currentEvent.capacity}</p>
     </div>
   );
-}
+} 
+       
