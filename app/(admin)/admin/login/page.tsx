@@ -4,7 +4,7 @@ import React from 'react'
 const page = () => {
   return (
     <div>
-      <AuthForm mode="login" />
+      <AuthForm mode="login" audience="admin" />
     </div>
   )
 }

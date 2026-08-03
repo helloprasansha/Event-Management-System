@@ -7,10 +7,8 @@
 import { adminAc, userAc } from "better-auth/plugins/admin/access";
 
   export const auth = betterAuth({
-    baseURL: {
-      allowedHosts: ["localhost:*"],
-      protocol: "http",
-    },
+    baseURL: process.env.BETTER_AUTH_URL,
+
     database: drizzleAdapter(db, {
       provider: "pg",
       schema: authSchema,

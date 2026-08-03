@@ -1,9 +1,11 @@
 "use server";
 
 import { db } from "@/db";
-import { event } from "@/db/schema";
+import { events } from "@/db/schema";
+import { auth } from "@/lib/auth";
 import { eventSchema } from "@/lib/validation/event";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 type FormState = {
@@ -26,6 +28,18 @@ export async function createEvent(
   prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session?.user.role !== "admin") {
+    return {
+      errors: {
+        title: ["Only administrators can create events."],
+      },
+    };
+  }
+
   const parsed = eventSchema.safeParse({
     title: formData.get("title"),
     description: formData.get("description"),
@@ -48,7 +62,7 @@ export async function createEvent(
   const banner = formData.get("banner")?.toString() || null;
 
   try {
-    await db.insert(event).values({
+    await db.insert(events).values({
       id: crypto.randomUUID(),
       ...parsed.data,
       banner,
@@ -68,5 +82,5 @@ export async function createEvent(
     };
   }
 
-  redirect("/admin/dashboard");
+  redirect("/admin/dashboard?event=created");
 }

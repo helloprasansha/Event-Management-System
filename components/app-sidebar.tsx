@@ -26,7 +26,7 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/admin/dashboard?",
       icon: (
         <LayoutDashboardIcon
         />
@@ -37,6 +37,14 @@ const data = {
       url: "/admin/events/event-details",
       icon: (
         <ListIcon
+        />
+      ),
+    },
+    {
+      title: "Calendar",
+      url: "/admin/events/calendar",
+      icon: (
+        <DatabaseIcon
         />
       ),
     },
