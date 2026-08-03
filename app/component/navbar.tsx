@@ -25,7 +25,7 @@ export default function Navbar() {
         <Navlink />
 
         <Sheet >
-  <SheetTrigger className="sm:hidden"> <Menu color="#fbf9f9" /> </SheetTrigger>
+  <SheetTrigger className="sm:hidden"> <Menu/> </SheetTrigger>
   <SheetContent>
     <SheetHeader>
       <SheetTitle></SheetTitle>
