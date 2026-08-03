@@ -11,11 +11,11 @@ if (!response.success) {
 }
 
   return (
-    <div>
+    <div className=''>
         <h1>Events</h1>
-        <div>
+        <div className='gap-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-2 m-2'>
             {response.data?.map((event: eventType) => (
-                <EventsCard 
+                <EventsCard
                 id={event.id}
                 title={event.title}
                 status={event.status ?? ""}
