@@ -27,11 +27,9 @@ export const eventSchema = z.object({
     .number()
     .min(0, "Price cannot be negative"),
 
-  status: z.enum([
-    "upcoming",
-    "ongoing",
-    "completed",
-  ]),
+status: z
+  .enum(["upcoming", "ongoing", "completed"])
+  .optional(),
 });
 
 export type EventSchema = z.infer<typeof eventSchema>;
@@ -75,4 +73,10 @@ export const eventFormSchema = z.object({
 });
 
 export type EventFormSchema = z.infer<typeof eventFormSchema>;
+
+export const eventEditFormSchema = eventFormSchema.extend({
+  status: z.enum(["upcoming", "ongoing", "completed"]),
+});
+
+export type EventEditFormSchema = z.infer<typeof eventEditFormSchema>;
 

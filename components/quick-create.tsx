@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { startTransition, useActionState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createEvent, type CreateEventFormState } from "@/app/(admin)/admin/events/actions/createevent";
@@ -88,7 +88,9 @@ const EventCreate = () => {
       formData.append("banner", data.banner);
     }
 
-    formAction(formData);
+    startTransition(() => {
+      formAction(formData);
+    });
   };
 
   const inputClassName = (hasError: boolean) =>

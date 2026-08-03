@@ -6,14 +6,17 @@ export async function proxy(request: NextRequest) {
         headers: request.headers,
     })
 
-    if(!session) {
-        return NextResponse.redirect(new URL("/login", request.url));
-        
+    if (request.nextUrl.pathname === "/admin/login" || request.nextUrl.pathname === "/login") {
+        return NextResponse.next();
+    }
+
+    if(!session || session.user.role !== "admin") {
+        return NextResponse.redirect(new URL("/admin/login", request.url));
     }
 
     return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/admin/dashboard/:path*"],
+  matcher: ["/admin/:path*", "/login"],
 };

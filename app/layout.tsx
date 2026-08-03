@@ -2,7 +2,8 @@ import { Geist, Geist_Mono, Inter } from "next/font/google"
 
 import "./globals.css"
 import { cn } from "@/lib/utils";
-import Navbar from "./component/navbar";
+import { Toaster } from "@/components/ui/sonner";
+import { SiteNavigation } from "@/components/site-navigation";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'})
 
@@ -21,10 +22,12 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
       className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
-    >
+      >
       <body>
-        <Navbar/>
-        {children}</body>
+        <SiteNavigation />
+        {children}
+        <Toaster />
+      </body>
     </html>
   )
 }
