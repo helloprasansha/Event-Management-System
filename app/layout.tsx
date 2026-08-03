@@ -2,6 +2,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google"
 
 import "./globals.css"
 import { cn } from "@/lib/utils";
+import Navbar from "./component/navbar";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'})
 
@@ -21,7 +22,9 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
     >
-      <body>{children}</body>
+      <body>
+        <Navbar/>
+        {children}</body>
     </html>
   )
 }

@@ -1,98 +1,9 @@
 {
-  "id": "e6604042-f292-49da-82aa-507871f366ef",
-  "prevId": "977a6919-6e16-4c27-8681-37e7f095de06",
+  "id": "f9d10fa9-dead-4109-a893-d5c5ec09f090",
+  "prevId": "eed03e69-5744-4db4-b75f-442ad0c48b08",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.attendance": {
-      "name": "attendance",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "registration_id": {
-          "name": "registration_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "checked_in_at": {
-          "name": "checked_in_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        },
-        "status": {
-          "name": "status",
-          "type": "attendance_status",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'absent'"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "attendance_registration_id_registrations_id_fk": {
-          "name": "attendance_registration_id_registrations_id_fk",
-          "tableFrom": "attendance",
-          "tableTo": "registrations",
-          "columnsFrom": [
-            "registration_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.categories": {
-      "name": "categories",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "categories_name_unique": {
-          "name": "categories_name_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "name"
-          ]
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
     "public.event": {
       "name": "event",
       "schema": "",
@@ -161,7 +72,7 @@
         },
         "status": {
           "name": "status",
-          "type": "event_status",
+          "type": "status",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": false,
@@ -196,149 +107,6 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.event_categories": {
-      "name": "event_categories",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "event_id": {
-          "name": "event_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "category_id": {
-          "name": "category_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "event_categories_event_id_event_id_fk": {
-          "name": "event_categories_event_id_event_id_fk",
-          "tableFrom": "event_categories",
-          "tableTo": "event",
-          "columnsFrom": [
-            "event_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "event_categories_category_id_categories_id_fk": {
-          "name": "event_categories_category_id_categories_id_fk",
-          "tableFrom": "event_categories",
-          "tableTo": "categories",
-          "columnsFrom": [
-            "category_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "event_categories_event_id_category_id_unique": {
-          "name": "event_categories_event_id_category_id_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "event_id",
-            "category_id"
-          ]
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.payments": {
-      "name": "payments",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "registration_id": {
-          "name": "registration_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "amount": {
-          "name": "amount",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "payment_method": {
-          "name": "payment_method",
-          "type": "payment_method",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'card'"
-        },
-        "payment_status": {
-          "name": "payment_status",
-          "type": "payment_status",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'pending'"
-        },
-        "transaction_id": {
-          "name": "transaction_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "paid_at": {
-          "name": "paid_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "payments_registration_id_registrations_id_fk": {
-          "name": "payments_registration_id_registrations_id_fk",
-          "tableFrom": "payments",
-          "tableTo": "registrations",
-          "columnsFrom": [
-            "registration_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
     "public.registrations": {
       "name": "registrations",
       "schema": "",
@@ -354,25 +122,33 @@
           "name": "user_id",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "event_id": {
           "name": "event_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "ticket_number": {
           "name": "ticket_number",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "qr_code": {
           "name": "qr_code",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
+        },
+        "paymentStatus": {
+          "name": "paymentStatus",
+          "type": "paymentStatus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'unpaid'"
         },
         "registered_at": {
           "name": "registered_at",
@@ -394,7 +170,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
+          "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
@@ -720,40 +496,22 @@
     }
   },
   "enums": {
-    "public.attendance_status": {
-      "name": "attendance_status",
+    "public.paymentStatus": {
+      "name": "paymentStatus",
       "schema": "public",
       "values": [
-        "present",
-        "absent"
+        "paid",
+        "unpaid",
+        "failed"
       ]
     },
-    "public.event_status": {
-      "name": "event_status",
+    "public.status": {
+      "name": "status",
       "schema": "public",
       "values": [
         "upcoming",
         "ongoing",
         "completed"
-      ]
-    },
-    "public.payment_method": {
-      "name": "payment_method",
-      "schema": "public",
-      "values": [
-        "esewa",
-        "khalti",
-        "card",
-        "cash"
-      ]
-    },
-    "public.payment_status": {
-      "name": "payment_status",
-      "schema": "public",
-      "values": [
-        "completed",
-        "failed",
-        "pending"
       ]
     }
   },

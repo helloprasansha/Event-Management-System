@@ -2,8 +2,8 @@ import { date, integer, pgEnum, text, time, timestamp, uuid, varchar } from "dri
 import { pgTable } from "drizzle-orm/pg-core/table";
 
 export const statusEnum = pgEnum("status", ["upcoming", "ongoing", "completed"])
-export const event = pgTable("event", {
-    id: uuid("id").primaryKey(),
+export const events = pgTable("event", {
+    id: uuid("id").primaryKey().defaultRandom(),
     title: varchar("title").notNull(),
     description: text("description").notNull(),
     venue: varchar("venue").notNull(),
@@ -22,12 +22,12 @@ export const event = pgTable("event", {
 
 export const paymentStatusEnum = pgEnum("paymentStatus", ["paid", "unpaid", "failed"])
 export const registrationsTable = pgTable("registrations",{
-    id: uuid("id"),
+    id: uuid("id").primaryKey().defaultRandom(),
     userId: varchar("user_id"),
-    eventId: uuid("event_id").references(() => event.id),
+    eventId: uuid("event_id").references(() => events.id),
     ticketNumber: varchar("ticket_number").unique(),
     qrCode: varchar("qr_code"),
-    paymentStatus: paymentStatusEnum("payment_status").default("unpaid"),
+    paymentStatus: paymentStatusEnum("paymentStatus").default("unpaid"),
     registeredAt: timestamp("registered_at").defaultNow(),
 })
 
