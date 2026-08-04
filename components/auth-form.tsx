@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -9,13 +8,15 @@ import { authClient } from "@/lib/auth-client";
 
 type AuthFormProps = {
   mode: "login" | "register";
+  audience?: "admin" | "user";
 };
 
-export function AuthForm({ mode }: AuthFormProps) {
-  const router = useRouter();
+export function AuthForm({ mode, audience = "user" }: AuthFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isRegistering = mode === "register";
+  const isAdminLogin = audience === "admin";
+  const callbackURL = "/events";
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -31,12 +32,12 @@ export function AuthForm({ mode }: AuthFormProps) {
           name: String(formData.get("name") ?? ""),
           email,
           password,
-          callbackURL: "/admin/dashboard",
+          callbackURL,
         })
       : await authClient.signIn.email({
           email,
           password,
-          callbackURL: "/admin/dashboard",
+          callbackURL,
         });
 
     setIsSubmitting(false);
@@ -46,22 +47,29 @@ export function AuthForm({ mode }: AuthFormProps) {
       return;
     }
 
-    router.push("/admin/dashboard");
-    router.refresh();
+    window.location.assign("/auth/redirect");
   }
 
   return (
     <main className="flex min-h-svh items-center justify-center bg-muted/40 p-6">
       <section className="w-full max-w-md rounded-2xl border bg-card p-8 shadow-sm">
         <div className="mb-8 space-y-2">
-          <p className="text-sm font-medium text-primary">Event Management</p>
+          <p className="text-sm font-medium text-primary">
+            {isAdminLogin ? "Event Management Admin" : "Event Management"}
+          </p>
           <h1 className="text-3xl font-semibold tracking-tight">
-            {isRegistering ? "Create your account" : "Welcome back"}
+            {isRegistering
+              ? "Create your account"
+              : isAdminLogin
+                ? "Admin sign in"
+                : "Welcome back"}
           </h1>
           <p className="text-sm text-muted-foreground">
             {isRegistering
               ? "Register to discover and manage events."
-              : "Sign in to continue to your events."}
+              : isAdminLogin
+                ? "Sign in with an administrator account."
+                : "Sign in to continue to your events."}
           </p>
         </div>
 
@@ -119,12 +127,14 @@ export function AuthForm({ mode }: AuthFormProps) {
           </Button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-muted-foreground">
-          {isRegistering ? "Already have an account?" : "Need an account?"}{" "}
-          <Link className="font-medium text-primary hover:underline" href={isRegistering ? "/login" : "/register"}>
-            {isRegistering ? "Sign in" : "Register"}
-          </Link>
-        </p>
+        {!isAdminLogin && (
+          <p className="mt-6 text-center text-sm text-muted-foreground">
+            {isRegistering ? "Already have an account?" : "Need an account?"}{" "}
+            <Link className="font-medium text-primary hover:underline" href={isRegistering ? "/login" : "/register"}>
+              {isRegistering ? "Sign in" : "Register"}
+            </Link>
+          </p>
+        )}
       </section>
     </main>
   );

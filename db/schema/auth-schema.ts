@@ -1,6 +1,8 @@
-import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
 const authTimestamp = (name: string) => timestamp(name, { withTimezone: true });
+
+export const roleEnum = pgEnum("role", ["admin", "user"]);
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -10,6 +12,10 @@ export const user = pgTable("user", {
   image: text("image"),
   createdAt: authTimestamp("createdAt").defaultNow().notNull(),
   updatedAt: authTimestamp("updatedAt").defaultNow().notNull(),
+  role: roleEnum("role").default("user").notNull(),
+  banned: boolean("banned").default(false).notNull(),
+  banReason: text("banReason"),
+  banExpires: authTimestamp("banExpires"),
 });
 
 export const session = pgTable("session", {
@@ -20,14 +26,19 @@ export const session = pgTable("session", {
   updatedAt: authTimestamp("updatedAt").notNull(),
   ipAddress: text("ipAddress"),
   userAgent: text("userAgent"),
-  userId: text("userId").notNull().references(() => user.id, { onDelete: "cascade" }),
+  impersonatedBy: text("impersonatedBy"),
+  userId: text("userId")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
 });
 
 export const account = pgTable("account", {
   id: text("id").primaryKey(),
   accountId: text("accountId").notNull(),
   providerId: text("providerId").notNull(),
-  userId: text("userId").notNull().references(() => user.id, { onDelete: "cascade" }),
+  userId: text("userId")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
   accessToken: text("accessToken"),
   refreshToken: text("refreshToken"),
   idToken: text("idToken"),
@@ -45,5 +56,5 @@ export const verification = pgTable("verification", {
   value: text("value").notNull(),
   expiresAt: authTimestamp("expiresAt").notNull(),
   createdAt: authTimestamp("createdAt").defaultNow().notNull(),
-  updatedAt: authTimestamp("updatedAt").defaultNow().notNull(),
+  updatedAt: authTimestamp("updatedAt").notNull(),
 });
