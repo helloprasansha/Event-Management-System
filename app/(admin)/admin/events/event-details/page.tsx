@@ -1,4 +1,4 @@
-import { CalendarDaysIcon, MapPinIcon, SquarePen, Trash, UsersIcon } from "lucide-react";
+import { CalendarDaysIcon, MapPinIcon, QrCode, SquarePen, Trash, UsersIcon } from "lucide-react";
 
 import { db } from "@/db";
 import { events } from "@/db/schema";
@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import { deleteEvent } from "@/app/(admin)/admin/events/actions/deleteevent";
+import DeleteEventButton from "../deleteevents/page";
+import EventQRDialog from "@/components/event-qr-dialog/page";
 
 export default async function EventDetails() {
   const eventList = await db.select().from(events);
@@ -74,13 +76,11 @@ export default async function EventDetails() {
               <Link href={`/admin/events/${item.id}/edits`}>
                 <SquarePen size={24} className="cursor-pointer" />
               </Link>
-
-              <form action={deleteEvent} method="post" className="inline">
-                <input type="hidden" name="id" value={item.id} />
-                <button type="submit" className="rounded-full p-2 text-destructive hover:bg-destructive/10">
-                  <Trash size={24} />
-                </button>
-              </form>
+              <EventQRDialog eventId={item.id} />
+              <Link href={`/admin/events/${item.id}/qr`}>
+                <QrCode size={24} className="cursor-pointer" />
+              </Link>
+              <DeleteEventButton id={item.id} />
             </div>
           </div>
         ))}
@@ -88,3 +88,4 @@ export default async function EventDetails() {
     </Card>
   );
 }
+

@@ -3,12 +3,22 @@ import GetAllEvents, { eventType } from '@/app/events/action/getAllEvents';
 import { EventsCard } from '@/app/events/eventsCard/eventsCard';
 
 type AdminEventCalendarProps = {
-  searchParams?: { date?: string | string[] };
+  searchParams: Promise<{
+    date?: string | string[];
+  }>;
 };
 
-export default async function AdminEventCalendar({ searchParams }: AdminEventCalendarProps) {
-  const selectedDate = Array.isArray(searchParams?.date) ? searchParams.date[0] : searchParams?.date;
-  const response = await GetAllEvents(selectedDate ?? undefined);
+export default async function AdminEventCalendar({
+  searchParams,
+}: AdminEventCalendarProps) {
+  // ✅ Await searchParams
+  const params = await searchParams;
+
+  const selectedDate = Array.isArray(params.date)
+    ? params.date[0]
+    : params.date;
+
+  const response = await GetAllEvents(selectedDate);
 
   if (!response.success) {
     return <div>Error: {response.message}</div>;

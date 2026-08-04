@@ -2,15 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 
 export async function proxy(request: NextRequest) {
-    const session = await auth.api.getSession({
-        headers: request.headers,
-    })
-
-    if (request.nextUrl.pathname === "/admin/login" || request.nextUrl.pathname === "/login") {
+    // Allow the login and auth API routes to proceed without fetching the session
+    if (
+        request.nextUrl.pathname === "/admin/login" ||
+        request.nextUrl.pathname === "/login" ||
+        request.nextUrl.pathname.startsWith("/api/auth")
+    ) {
         return NextResponse.next();
     }
 
-    if(!session || session.user.role !== "admin") {
+    const session = await auth.api.getSession({
+        headers: request.headers,
+    });
+
+    if (!session || session.user.role !== "admin") {
         return NextResponse.redirect(new URL("/admin/login", request.url));
     }
 
