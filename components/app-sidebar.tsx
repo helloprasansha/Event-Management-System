@@ -57,8 +57,8 @@ const data = {
       ),
     },
     {
-      title: "Attendees",
-      url: "#",
+      title: "Bookings",
+      url: "/admin/Bookings",
       icon: (
         <FolderIcon
         />

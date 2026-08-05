@@ -17,6 +17,7 @@ export const events = pgTable("event", {
     createdBy: varchar("created_by"),
     Created_At: timestamp("created_at").defaultNow(),
     Updated_At: timestamp("updated_at").defaultNow(),
+    Booking_ExpiredAt : timestamp("booking_expired_at").defaultNow(),
 
 })
 
@@ -31,4 +32,17 @@ export const registrationsTable = pgTable("registrations",{
     registeredAt: timestamp("registered_at").defaultNow(),
 })
 
+export const bookingStatusEnum = pgEnum("bookingStatus", ["pending", "confirmed", "cancelled"])
+
+export const BookingTable = pgTable("booking", {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: varchar("user_id"),
+    eventId: uuid("event_id").references(() => events.id),
+    ticketNumber: varchar("ticket_number").unique(),
+    paymentStatus: paymentStatusEnum("paymentStatus").default("unpaid"),
+    registeredAt: timestamp("registered_at").defaultNow(),
+    quantity: integer("quantity").default(1),
+    totalAmount: integer("total_amount").default(0),
+    bookingStatus: bookingStatusEnum("booking_status").default("pending"),
+})
 
