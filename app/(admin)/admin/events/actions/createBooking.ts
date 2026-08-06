@@ -6,10 +6,11 @@ import { bookingSchema } from "@/lib/validation/booking-schema";
 import { eq } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { sendBookingConfirmationEmail } from "@/lib/email/sendBooking";
 
 export async function createBooking(formData: FormData) {
   try {
-    // Get logged-in user
+   
     const session = await auth.api.getSession({
       headers: await headers(),
     });
@@ -21,11 +22,10 @@ export async function createBooking(formData: FormData) {
       };
     }
 
-    // Get form values
+   
     const eventId = formData.get("eventId")?.toString();
     const quantity = Number(formData.get("quantity"));
 
-    // Validate
     const validated = bookingSchema.safeParse({
       eventId,
       quantity,
@@ -38,7 +38,7 @@ export async function createBooking(formData: FormData) {
       };
     }
 
-    // Find event
+   
     const [event] = await db
       .select()
       .from(events)
@@ -51,10 +51,10 @@ export async function createBooking(formData: FormData) {
       };
     }
 
-    // Calculate total on SERVER
+   
     const totalAmount = event.price * validated.data.quantity;
 
-    // Create booking
+    
     await db.insert(BookingTable).values({
       userId: session.user.id,
       eventId: validated.data.eventId,
@@ -64,6 +64,23 @@ export async function createBooking(formData: FormData) {
       bookingStatus: "pending",
     });
 
+    try {
+  await sendBookingConfirmationEmail({
+    email: session.user.email,
+    name: session.user.name,
+    eventTitle: event.title,
+    eventDate: event.event_Date.toString(),
+    venue: event.venue,
+    quantity: validated.data.quantity,
+    total: totalAmount,
+  });
+
+  console.log("Sending to:", session.user.email);
+
+  console.log(" Email sent successfully");
+} catch (error) {
+  console.error(" Email failed:", error);
+}
     return {
       success: true,
       message: "Event booked successfully.",
@@ -77,3 +94,7 @@ export async function createBooking(formData: FormData) {
     };
   }
 }
+
+
+
+

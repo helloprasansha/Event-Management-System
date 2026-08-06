@@ -78,7 +78,6 @@ export default async function EventDetails() {
               </Link>
               <EventQRDialog eventId={item.id} />
               <Link href={`/admin/events/${item.id}/qr`}>
-                <QrCode size={24} className="cursor-pointer" />
               </Link>
               <DeleteEventButton id={item.id} />
             </div>
