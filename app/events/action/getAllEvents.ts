@@ -13,7 +13,7 @@ export default async function GetAllEvents(eventDate?: string) {
       ? await query.where(eq(events.event_Date, eventDate))
       : await query;
 
-    // 👇 Add these lines here
+    
     console.log("Selected Date:", eventDate);
     console.log("Fetched Events:", eventData);
 
