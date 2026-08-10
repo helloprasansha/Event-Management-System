@@ -66,13 +66,13 @@ const data = {
     },
     {
       title: "Venues",
-      url: "#",
+      url: "/admin/Venue",
       icon: (
         <UsersIcon
         />
       ),
     },
-  ],
+  ],  
   navClouds: [
     {
       title: "Capture",

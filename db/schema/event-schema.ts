@@ -46,3 +46,12 @@ export const BookingTable = pgTable("booking", {
     bookingStatus: bookingStatusEnum("booking_status").default("pending"),
 })
 
+export const venues = pgTable("venues", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: varchar("name").notNull(),
+  location: varchar("location").notNull(),
+  capacity: integer("capacity").notNull(),
+  description: text("description"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
