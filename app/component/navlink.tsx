@@ -1,33 +1,37 @@
-const links = [
-    { href: "/", label: "Home" },
-    { href: "/events", label: "Events" },
-    { href: "/register", label: "Sign Up", variant: "primary" },
-    { href: "/login", label: "Login" },
-  ];
+import Link from "next/link";
 
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-  import React from 'react'
+export default function Navlink() {
+  return (
+    <div className="flex flex-1 justify-end">
+      <div className="flex items-center gap-8">
+        <Link
+          href="/"
+          className="text-sm font-medium text-slate-700 transition-colors duration-200 hover:text-amber-500"
+        >
+          Home
+        </Link>
 
-  export default function Navlink() {
-    return (
-      <div className='flex flex-row justify-end gap-4 flex-1 '>
-        
-        <div className='flex flex-col gap-6 sm:flex-row '>    
-        <div>
-          <Link href="/"><Button variant="link">Home</Button></Link>
-        </div>
-        <div>
-          <Link href="/events"><Button variant="link">Events</Button></Link>
-        </div>
-        <div>
-          <Link href="/register"><Button variant="link">Sign Up</Button></Link>
-        </div>
-        <div>
-          <Link href="/login"><Button variant="link">Login</Button></Link>  
-        </div>
-        </div>
-      </div> 
-    )
-  }
-  
+        <Link
+          href="/events"
+          className="text-sm font-medium text-slate-700 transition-colors duration-200 hover:text-amber-500"
+        >
+          Events
+        </Link>
+
+        <Link
+          href="/register"
+          className="text-sm font-medium text-slate-700 transition-colors duration-200 hover:text-amber-500"
+        >
+          Sign Up
+        </Link>
+
+        <Link
+          href="/login"
+          className="text-sm font-medium text-slate-700 transition-colors duration-200 hover:text-amber-500"
+        >
+          Login
+        </Link>
+      </div>
+    </div>
+  );
+}

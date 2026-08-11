@@ -21,7 +21,6 @@ interface eventCardType {
 }
 
 export function EventsCard({
-  id,
   title,
   status,
   venue,
@@ -31,52 +30,76 @@ export function EventsCard({
   price,
 }: eventCardType) {
   return (
-    <Card className="relative mx-auto w-full max-w-xs pt-0 " key={id}>
-      {status ==="upcoming" ? (
-        <Badge className="absolute top-2 left-2 z-50 bg-green-100 text-green-700"> {status} </Badge>
-      ) : status === "ongoing" ? (
-        <Badge className="absolute top-2 left-2 z-50 bg-yellow-100 text-yellow-700"> {status}</Badge>
-      ) : (
-          <Badge className="absolute top-2 left-2 z-50 bg-red-100 text-red-700"> {status} </Badge>
+    <Card className="overflow-hidden rounded-xl border shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+      <div className="relative flex h-32 items-center justify-center bg-gradient-to-r from-indigo-600 to-violet-600">
+        {status === "upcoming" ? (
+          <Badge className="absolute left-3 top-3 bg-green-500">
+            Upcoming
+          </Badge>
+        ) : status === "ongoing" ? (
+          <Badge className="absolute left-3 top-3 bg-yellow-500 text-black">
+            Ongoing
+          </Badge>
+        ) : (
+          <Badge className="absolute left-3 top-3 bg-red-500">
+            Completed
+          </Badge>
         )}
-      
 
-      <img
-        src="https://avatar.vercel.sh/shadcn1"
-        alt="Event cover"
-        className="aspect-video w-full object-cover brightness-60 grayscale dark:brightness-40"
-      />
+        <h2 className="px-4 text-center text-xl font-bold text-white">
+          {title}
+        </h2>
+      </div>
 
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-lg">{title}</CardTitle>
+
+        <p className="text-sm text-slate-500">
+          Join this exciting event.
+        </p>
       </CardHeader>
 
-      <CardContent className="space-y-4 ">
-  <div className="flex items-center gap-2">
-    <span className="font-medium">Event Date</span>
-    <CalendarDays className="h-4 w-4" />
-    <span>{eventDate}</span>
-  </div>
+      <CardContent className="space-y-4 text-sm">
+        <div className="flex items-center gap-3">
+          <CalendarDays className="h-4 w-4 text-indigo-600" />
 
-  <div className="flex items-center gap-2">
-    <span className="font-medium">Time</span>
-    <Clock4 className="h-4 w-4" />
-    <span>
-      {startTime} - {endTime}
-    </span>
-  </div>
+          <div>
+            <p className="text-xs text-slate-500">Date</p>
+            <p>{eventDate}</p>
+          </div>
+        </div>
 
-  <div className="flex items-center gap-2">
-    <span className="font-medium">Venue</span>
-    <MapPin className="h-4 w-4" />
-    <span>{venue}</span>
-  </div>
-</CardContent>
+        <div className="flex items-center gap-3">
+          <Clock4 className="h-4 w-4 text-indigo-600" />
 
-      <CardFooter className="flex items-center justify-between">
-        <span className="font-bold">Rs. {price}</span>
+          <div>
+            <p className="text-xs text-slate-500">Time</p>
+            <p>
+              {startTime} - {endTime}
+            </p>
+          </div>
+        </div>
 
-        <Button variant="link">View Details</Button>
+        <div className="flex items-center gap-3">
+          <MapPin className="h-4 w-4 text-indigo-600" />
+
+          <div>
+            <p className="text-xs text-slate-500">Venue</p>
+            <p>{venue}</p>
+          </div>
+        </div>
+      </CardContent>
+
+      <CardFooter className="flex items-center justify-between border-t pt-4">
+        <div>
+          <p className="text-xs text-slate-500">Price</p>
+
+          <p className="text-lg font-semibold text-indigo-600">
+            Rs. {price}
+          </p>
+        </div>
+
+        <Button size="sm">View Details</Button>
       </CardFooter>
     </Card>
   );

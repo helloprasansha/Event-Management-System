@@ -23,7 +23,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
       >
-      <body>
+      <body className="bg-slate-50">
         <SiteNavigation />
         {children}
         <Toaster />
