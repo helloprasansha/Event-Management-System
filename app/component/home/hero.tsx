@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -19,10 +20,10 @@ export default function Hero() {
             and much more. Book your seat in just a few clicks.
           </p>
 
-          <div className="mt-8 flex gap-4">
+          <div className="mt-8 flex gap-4"> <Link href="/events">
             <button className="rounded-lg bg-indigo-600 px-6 py-3 text-white hover:bg-indigo-700">
               Browse Events
-            </button>
+            </button> </Link>
 
             <button className="rounded-lg border px-6 py-3 hover:bg-gray-100">
               Learn More
