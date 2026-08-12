@@ -1,4 +1,3 @@
-import { UpcomingEvents } from "@/components/upcoming-events";
 import Categories from "./component/home/categories";
 import Hero from "./component/home/hero";
 import WhyChooseUs from "./component/home/whyChooseUs";
@@ -10,7 +9,7 @@ export default function Home() {
     <main>
       <Hero />
       <Categories/>
-      <UpcomingEvents/>
+     
       <WhyChooseUs/>
       <Newsletter/>
       <Footer/>

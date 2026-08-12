@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -32,53 +31,64 @@ export function EventsCard({
   price,
 }: eventCardType) {
   return (
-    <Card className="relative mx-auto w-full max-w-xs pt-0 " key={id}>
+    <Card
+      className="relative mx-auto w-full max-w-sm overflow-hidden border-stone-200 bg-white pt-0 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
+    >
       {status === "upcoming" ? (
-        <Badge className="absolute top-2 left-2 z-50 bg-green-100 text-green-700"> {status} </Badge>
-      ) : status === "ongoing" ? (
-        <Badge className="absolute top-2 left-2 z-50 bg-yellow-100 text-yellow-700"> {status}</Badge>
-      ) : (
-        <Badge className="absolute top-2 left-2 z-50 bg-red-100 text-red-700"> {status} </Badge>
-      )}
+  <Badge className="absolute left-3 top-3 z-10 bg-red-100 text-red-700 hover:bg-red-100">
+    {status}
+  </Badge>
+) : status === "ongoing" ? (
+  <Badge className="absolute left-3 top-3 z-10 bg-yellow-100 text-yellow-700 hover:bg-yellow-100">
+    {status}
+  </Badge>
+) : (
+  <Badge className="absolute left-3 top-3 z-10 bg-green-100 text-green-700 hover:bg-green-100">
+    {status}
+  </Badge>
+)}
 
       <img
         src="https://avatar.vercel.sh/shadcn1"
         alt="Event cover"
-        className="aspect-video w-full object-cover brightness-60 grayscale dark:brightness-40"
+        className="aspect-video w-full object-cover"
       />
 
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
+      <CardHeader className="pb-3">
+        <CardTitle className="text-xl text-stone-900">
+          {title}
+        </CardTitle>
       </CardHeader>
 
-      <CardContent className="space-y-4 ">
-        <div className="flex items-center gap-2">
-          <span className="font-medium">Event Date</span>
-          <CalendarDays className="h-4 w-4" />
+      <CardContent className="space-y-3 text-sm text-stone-500">
+
+        <div className="flex items-center gap-3">
+          <CalendarDays className="h-4 w-4 shrink-0 text-stone-600" />
           <span>{eventDate}</span>
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="font-medium">Time</span>
-          <Clock4 className="h-4 w-4" />
+        <div className="flex items-center gap-3">
+          <Clock4 className="h-4 w-4 shrink-0 text-stone-600" />
           <span>
             {startTime} - {endTime}
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="font-medium">Venue</span>
-          <MapPin className="h-4 w-4" />
+        <div className="flex items-center gap-3">
+          <MapPin className="h-4 w-4 shrink-0 text-stone-600" />
           <span>{venue}</span>
         </div>
+
       </CardContent>
 
-      <CardFooter className="flex items-center justify-between">
-        <span className="font-bold">Rs. {price}</span>
+      <CardFooter className="flex items-center justify-between border-t border-stone-100 pt-4">
+        <span className="font-semibold text-stone-800">
+          Rs. {price}
+        </span>
 
         <Link
           href={`/events/${id}`}
-          className="text-primary underline-offset-4 hover:underline"
+          className="rounded-lg bg-stone-700 px-4 py-2 text-sm font-medium text-white transition hover:bg-stone-800"
         >
           View Details
         </Link>
