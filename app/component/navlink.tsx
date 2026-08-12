@@ -1,33 +1,41 @@
-const links = [
-    { href: "/", label: "Home" },
-    { href: "/events", label: "Events" },
-    { href: "/register", label: "Sign Up", variant: "primary" },
-    { href: "/login", label: "Login" },
-  ];
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-  import React from 'react'
+export default function Navlink() {
+  return (
+    <div className="flex items-center gap-1">
+      <Link href="/">
+        <Button
+          variant="ghost"
+          className="rounded-lg px-4 font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-800"
+        >
+          Home
+        </Button>
+      </Link>
 
-  export default function Navlink() {
-    return (
-      <div className='flex flex-row justify-end gap-4 flex-1 '>
-        
-        <div className='flex flex-col gap-6 sm:flex-row '>    
-        <div>
-          <Link href="/"><Button variant="link">Home</Button></Link>
-        </div>
-        <div>
-          <Link href="/events"><Button variant="link">Events</Button></Link>
-        </div>
-        <div>
-          <Link href="/register"><Button variant="link">Sign Up</Button></Link>
-        </div>
-        <div>
-          <Link href="/login"><Button variant="link">Login</Button></Link>  
-        </div>
-        </div>
-      </div> 
-    )
-  }
-  
+      <Link href="/events">
+        <Button
+          variant="ghost"
+          className="rounded-lg px-4 font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-800"
+        >
+          Events
+        </Button>
+      </Link>
+
+      <Link href="/register">
+        <Button className="rounded-lg bg-stone-700 px-5 font-medium text-stone-50 shadow-sm transition hover:bg-stone-800">
+          Sign Up
+        </Button>
+      </Link>
+
+      <Link href="/login">
+        <Button
+          variant="ghost"
+          className="rounded-lg px-4 font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-800"
+        >
+          Login
+        </Button>
+      </Link>
+    </div>
+  );
+}
